@@ -1,0 +1,158 @@
+﻿<Window x:Class="PPTLS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PPTLS"
+        xmlns:viewmodel="clr-namespace:PPTLS.ViewModel"
+        xmlns:converters="clr-namespace:PPTLS.Converters"
+        mc:Ignorable="d"
+        Title="PPTLS" Height="450" Width="800"
+        FontSize="15" Background="{StaticResource ResourceKey=PinzellFons}">
+    <Window.DataContext>
+        <viewmodel:PPTLSViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <converters:ColorConverter x:Key="ColorConverter"/>
+        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+    </Window.Resources>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Puntuacions" Command="{Binding ObrePuntuacionsCommand}"/>
+            <MenuItem Header="_Configuració" Command="{Binding ObreConfiguracioCommand}"/>
+            <MenuItem Header="Refés" Command="{Binding ObreJocCommand}"/>
+            <MenuItem Header="Abandona" Command="{Binding AbandonaCommand}"/>
+            <MenuItem Header="Sortir" Command="{Binding SortirCommand}"/>
+        </Menu>
+        <Grid DockPanel.Dock="Top">
+            <Grid x:Name="grdJoc" Visibility="{Binding Jugant, Converter={StaticResource VisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Column="1" Grid.RowSpan="2">
+                    <Button DockPanel.Dock="Bottom" Content="JUGAR DE NOU" Margin="20, 5" Command="{Binding ComençaCommand}"/>
+                    <Button DockPanel.Dock="Bottom" Content="SEGUENT RIVAL" Margin="20, 5" Command="{Binding SeguentCommand}"/>
+                    <ListBox DockPanel.Dock="Top" Margin="10" ItemsSource="{Binding BotsGuanyats}" BorderThickness="1">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Source="{Binding Foto}" Height="40" Margin="3"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Nom}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Nom}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+                <Border Grid.Column="0" CornerRadius="20, 20, 0, 0" Background="#d6d6d6" Margin="0,208,0,0" Grid.RowSpan="2">
+                    <Grid HorizontalAlignment="Center" Margin="0, 10, 0, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" x:Name="btnPedra" Style="{StaticResource EstilBotons}" Command="{Binding TiradaCommand}" CommandParameter="1">
+                            <Image DockPanel.Dock="Top" Source="../Imatges/pedra.png"/>
+                        </Button>
+                        <Button Grid.Column="1" x:Name="btnPaper" Style="{StaticResource EstilBotons}" Command="{Binding TiradaCommand}" CommandParameter="2">
+                            <Image DockPanel.Dock="Top" Source="../Imatges/paper.png"/>
+                        </Button>
+                        <Button Grid.Column="2" x:Name="btnTisores" Style="{StaticResource EstilBotons}" Command="{Binding TiradaCommand}" CommandParameter="3">
+                            <Image DockPanel.Dock="Top" Source="../Imatges/tisores.png"/>
+                        </Button>
+                        <Button Grid.Column="3" x:Name="btnLlangardaix" Style="{StaticResource EstilBotons}" Command="{Binding TiradaCommand}" CommandParameter="4" Visibility="{Binding ModeExtens, Converter={StaticResource VisibilityConverter}}">
+                            <Image DockPanel.Dock="Top" Source="../Imatges/llangardaix.png"/>
+                        </Button>
+                        <Button Grid.Column="4" x:Name="btnSpcok" Style="{StaticResource EstilBotons}" Command="{Binding TiradaCommand}" CommandParameter="5" Visibility="{Binding ModeExtens, Converter={StaticResource VisibilityConverter}}">
+                            <Image DockPanel.Dock="Top" Source="../Imatges/spock.png"/>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="1" Content="TIRA" Margin="5" Command="{Binding TirarCommand}"/>
+                    </Grid>
+                </Border>
+                <DockPanel Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock x:Name="txtNomUser" Text="{Binding Jugador.Nom}" Margin="0, 0, 30, 0"/>
+                        <TextBlock Text="{Binding Ronda}"/>
+                        <TextBlock x:Name="txtNomBot" Text="{Binding Bot.Nom}" Margin="30, 0, 0, 0"/>
+                    </StackPanel>
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Border Background="#d6d6d6" CornerRadius="10" VerticalAlignment="Center">
+                            <TextBlock x:Name="txtRondesUser" Text="{Binding RondesGuanyadesJugador}" Margin="10" FontSize="40"/>
+                        </Border>
+                        <Image Width="130" Margin="20, 10, 50, 10" Source="{Binding FotoJugador}"/>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Top" Text="{Binding Resultat}" Foreground="{Binding Resultat, Converter={StaticResource ColorConverter}}" Margin="0, 30, 0, 0" FontSize="20" FontWeight="Bold"/>
+                            <TextBlock DockPanel.Dock="Top" Text="VS" VerticalAlignment="Center" TextAlignment="Center" FontStyle="Italic"/>
+                        </DockPanel>
+                        <Image Width="130" Margin="50, 10, 20, 10" Source="{Binding FotoBot}"/>
+                        <Border Background="#d6d6d6" CornerRadius="10" VerticalAlignment="Center">
+                            <TextBlock x:Name="txtRondesBot" Text="{Binding RondesGuanyadesaBot}" Margin="10" FontSize="40"/>
+                        </Border>
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+            <Grid x:Name="grdPuntuacions" Visibility="{Binding Puntuant, Converter={StaticResource VisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="11*"/>
+                </Grid.RowDefinitions>
+                <ToolBar Grid.Row="0">
+                    <Button Content="Elimina" Command="{Binding EliminaCommand}"/>
+                </ToolBar>
+                <ListView x:Name="lvPuntuacions" ItemsSource="{Binding Jugadors}" Grid.Row="1" SelectedIndex="{Binding Posicio}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Nom" DisplayMemberBinding="{Binding Nom}"/>
+                            <GridViewColumn Header="Partides guanyades en un torneig" DisplayMemberBinding="{Binding PartidesGuanyadesTorneig}"/>
+                            <GridViewColumn Header="Puntuacio" DisplayMemberBinding="{Binding Puntuacio}"/>
+                            <GridViewColumn Header="Partides guanyades" DisplayMemberBinding="{Binding PartidesGuanyades}"/>
+                            <GridViewColumn Header="Rondes guanyades" DisplayMemberBinding="{Binding RondesGuanyades}"/>
+                            <GridViewColumn Header="Rondes perdudes" DisplayMemberBinding="{Binding RondesPerdudes}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <DockPanel x:Name="dckConfiguracio" HorizontalAlignment="Center" Visibility="{Binding Configurant, Converter={StaticResource VisibilityConverter}}">
+                <TextBlock DockPanel.Dock="Top" Text="Nom i Cognoms" TextAlignment="Center" Style="{StaticResource ResourceKey=TexteStyle}"/>
+                <TextBox x:Name="tbJugador" Text="{Binding Nom}" DockPanel.Dock="Top" Margin="50, 0"/>
+                <TextBlock DockPanel.Dock="Top" Text="NÚMERO DE RONDES" Style="{StaticResource ResourceKey=TexteStyle}" TextAlignment="Center" Margin="10"/>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="btnkBo1" Style="{StaticResource EstilBotons}" Command="{Binding NumRondesCommand}" CommandParameter="1">
+                        <Image Source="../Imatges/bo1.png" Height="120"/>
+                    </Button>
+                    <Button x:Name="btnBo3" Style="{StaticResource EstilBotons}" Command="{Binding NumRondesCommand}" CommandParameter="3">
+                        <Image Source="../Imatges/bo3.png" Height="120"/>
+                    </Button>
+                    <Button x:Name="btnBo5" Style="{StaticResource EstilBotons}" Command="{Binding NumRondesCommand}" CommandParameter="5">
+                        <Image Source="../Imatges/bo5.png" Height="120"/>
+                    </Button>
+                </StackPanel>
+                <TextBlock DockPanel.Dock="Top" Text="MODE DE JOC" TextAlignment="Center" Style="{StaticResource ResourceKey=TexteStyle}"/>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+                    <Button x:Name="btnClassic" Content="Clàssic" Margin="10" FontWeight="Normal" Width="100" Command="{Binding ClassicCommand}" CommandParameter="0"/>
+                    <Button x:Name="btnExtensio" Content="Extensió" Margin="10" FontWeight="Normal" Width="100" Command="{Binding ExtensCommand}" CommandParameter="1"/>
+                </StackPanel>
+                <Button x:Name="btnComençaTorneig" Content="Jugar" FontWeight="Normal" FontSize="15" Margin="40,20" Command="{Binding ComençaCommand}"/>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>
