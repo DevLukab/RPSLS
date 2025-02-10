@@ -3,14 +3,14 @@
 This project is a **Rock Paper Scissors Lizard Spock** game, built using **WPF (Windows Presentation Foundation)** for an engaging and interactive experience.
 
 ## Overview
-This game extends the traditional Rock Paper Scissors by adding two more elements, Lizard and Spock, following the rules popularized by *The Big Bang Theory*. The application features a sleek and modern UI, designed for seamless gameplay.
+This game extends the traditional Rock Paper Scissors by adding two more elements, Lizard and Spock. The application features a sleek and modern UI, designed for seamless gameplay.
 
 ## How to Play
 1. **Launch the Game**: Upon starting the application, you'll be presented with an initial screen.
 2. **Enter Player Details**: Input your name and select the number of rounds you want to play.
 3. **Choose Game Mode**: Decide whether to play the classic Rock Paper Scissors or the extended version with Lizard and Spock.
 4. **Face Random Opponents**: The game generates a random character from a pre-existing database as your opponent.
-5. **Advance by Winning**: If you win a round, you progress to the next stage and face a new opponent. The challenge continues until you lose.
+5. **Advance by Winning**: If you win the game, you progress to the next stage and face a new opponent. The challenge continues until you lose.
 
 ## Key Highlights
 - Smooth and interactive user experience.
@@ -29,7 +29,7 @@ This game extends the traditional Rock Paper Scissors by adding two more element
 ## Getting Started
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/DevLukab/RPSLS.git
    ```
 2. Open the project in **Visual Studio**.
 3. Build and launch the application.
